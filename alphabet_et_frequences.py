@@ -11,6 +11,6 @@ def determiner_alphabet_et_frequences(texte):
     return alphabet_trie
 
 # Exemple d'utilisation :
-texte_exemple = "ceci est un test avec beaucoup de lettres"
-alphabet_et_frequences = determiner_alphabet_et_frequences(texte_exemple)
-print("Alphabet et fréquences :", alphabet_et_frequences)
+# texte_exemple = "ceci est un test avec beaucoup de lettres"
+# alphabet_et_frequences = determiner_alphabet_et_frequences(texte_exemple)
+# print("Alphabet et fréquences :", alphabet_et_frequences)
