@@ -9,36 +9,42 @@ import os
 texte_exemple = "Ceci est un test d'encode avec Huffman"
 print(f"Nom a encodé : " , texte_exemple)
 
-Étape 1 : Détermination de l'alphabet et des fréquences
+# Étape 1 : Détermination de l'alphabet et des fréquences
 alphabet_et_frequences = determiner_alphabet_et_frequences(texte_exemple)
 print("Alphabet et fréquences :", alphabet_et_frequences)
 
-Étape 2 : Construction de l'arbre de codage de Huffman
+# Étape 2 : Construction de l'arbre de codage de Huffman
 arbre_huffman = construire_arbre_huffman(alphabet_et_frequences)
 print("Arbre de Huffman construit.")
 
-Étape 3 : Codage du texte
+# Étape 3 : Codage du texte
 texte_code = coder_texte(texte_exemple, arbre_huffman)
 print("Texte codé :", texte_code)
 
 
-Étape 4 : Calculer les tailles du texte initial et compressé
-taille_initial = len(texte_exemple.encode('utf-8'))
-taille_compressé = len(texte_code.encode('utf-8'))
+# Étape 4 : Calculer les tailles du texte initial et compressé
 
-Calculer le taux de compression
-taux_compression = determiner_taux_compression(taille_initial, taille_compressé)
+# Calculer la taille du fichier texte initial
+taille_texte_initial = len(texte_exemple)
+
+# Calculer la taille du fichier compressé
+taille_texte_compresse = len(texte_code) // 8  # Convertir la taille en octets (8 bits par octet)
+
+# Calculer le taux de compression
+taux_compression = 1 - (taille_texte_compresse / taille_texte_initial)
+
 print("Taux de compression :", taux_compression)
 
-Étape 5 : Déterminé le nombre de bits
+
+# Étape 5 : Déterminé le nombre de bits
 
 taille_compressé_bits = len(texte_code)
 nombre_caracteres = len(texte_exemple)
 
 nombre_moyen_bits = determiner_nombre_moyen_bits(taille_compressé_bits, nombre_caracteres)
 print("Nombre moyen de bits par caractère dans le texte compressé :", nombre_moyen_bits)
-
 '''
+
 
 # Fonction pour lire le contenu d'un fichier texte
 def lire_fichier_texte(nom_fichier):
@@ -102,4 +108,4 @@ def compression_huffman(nom_fichier):
     print("\nCompression terminée.")
 
 # Utilisation de la fonction de compression
-compression_huffman("./data/alice.txt")
+compression_huffman("./data/textesimple.txt")
