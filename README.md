@@ -1,4 +1,4 @@
-**Projet de Compression de Données avec Codage de Huffman**
+# Projet de Compression de Données avec Codage de Huffman
 
 **Objectif du Projet:**
 Ce projet vise à mettre en œuvre l'algorithme semi-adaptatif de Huffman pour la compression de données. L'algorithme de Huffman est une méthode statistique de compression sans perte qui remplace les caractères fréquents par de courtes séquences de bits et les caractères moins fréquents par des séquences plus longues. L'objectif principal est de réduire la taille des fichiers tout en conservant l'intégrité des données, ce qui permet un stockage plus efficace et une transmission plus rapide sur les réseaux.
