@@ -107,5 +107,16 @@ def compression_huffman(nom_fichier):
 
     print("\nCompression terminée.")
 
+    # Calculer les tailles du texte initial et compressé
+    taille_texte_initial = len(texte)
+    taille_texte_compresse = len(texte_code) // 8
+    taux_compression = round((1 - (taille_texte_compresse / taille_texte_initial))*100 , 2)
+    print("\nTaux de compression :", taux_compression, "%")
+
+    # Calculer le nombre moyen de bits par caractère dans le texte compressé
+    taille_compressé_bits = len(texte_code)
+    nombre_moyen_bits = determiner_nombre_moyen_bits(taille_compressé_bits, taille_texte_initial)
+    print("Nombre moyen de bits par caractère dans le texte compressé :", nombre_moyen_bits)
+
 # Utilisation de la fonction de compression
 compression_huffman("./data/textesimple.txt")
