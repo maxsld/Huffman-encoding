@@ -119,4 +119,4 @@ def compression_huffman(nom_fichier):
     print("Nombre moyen de bits par caractère dans le texte compressé :", nombre_moyen_bits)
 
 # Utilisation de la fonction de compression
-compression_huffman("./data/textesimple.txt")
+compression_huffman("./data/alice.txt")

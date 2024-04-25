@@ -4,10 +4,9 @@ from tkinter.ttk import Progressbar
 from alphabet_et_frequences import determiner_alphabet_et_frequences
 from construction_arbre import construire_arbre_huffman
 from codage_texte import coder_texte
-from taux_bits import determiner_taux_compression, determiner_nombre_moyen_bits
+from taux_bits import determiner_nombre_moyen_bits
 import os
 import threading
-import time
 import subprocess
 
 # Fonction pour lire le contenu d'un fichier texte
@@ -36,7 +35,7 @@ def ecrire_fichier_texte(nom_fichier, contenu):
         print("Une erreur s'est produite :", e)
 
 # Fonction de compression Huffman
-def compression_huffman(nom_fichier_entree, progress_bar):
+def compression_huffman(nom_fichier_entree, progress_bar, taux_label, bits_label):
     # Lecture du fichier texte
     texte = lire_fichier_texte(nom_fichier_entree)
 
@@ -65,6 +64,19 @@ def compression_huffman(nom_fichier_entree, progress_bar):
     # Mise à jour de la barre de progression
     progress_bar["value"] = 100
 
+    # Calculer les tailles du texte initial et compressé
+    taille_texte_initial = len(texte)
+    taille_texte_compresse = len(texte_code) // 8
+    taux_compression = 1 - (taille_texte_compresse / taille_texte_initial)
+
+    # Calculer le nombre moyen de bits par caractère dans le texte compressé
+    taille_compressé_bits = len(texte_code)
+    nombre_moyen_bits = determiner_nombre_moyen_bits(taille_compressé_bits, taille_texte_initial)
+
+    # Mettre à jour les étiquettes avec les valeurs calculées
+    taux_label.config(text="Taux de compression : {:.2%}".format(taux_compression))
+    bits_label.config(text="Nombre moyen de bits par caractère : {:.2f}".format(nombre_moyen_bits))
+
     # Affichage du message de confirmation
     afficher_confirmation()
 
@@ -87,12 +99,12 @@ def choisir_fichier():
         # Affichage de la barre de progression
         progress_bar.pack(pady=10)
         # Lancement de la compression dans un thread
-        threading.Thread(target=compression_huffman, args=(fichier_entree, progress_bar)).start()
+        threading.Thread(target=compression_huffman, args=(fichier_entree, progress_bar, taux_label, bits_label)).start()
 
 # Création de l'interface tkinter
 root = tk.Tk()
 root.title("Compression de fichiers avec Huffman")
-root.geometry("700x250")
+root.geometry("700x300")
 
 # Label titre
 titre_label = tk.Label(root, text="Compression de fichiers avec Huffman", font=("Helvetica", 16))
@@ -104,6 +116,13 @@ progress_bar = Progressbar(root, orient="horizontal", length=300, mode="determin
 # Bouton pour sélectionner un fichier à compresser
 btn_choisir_fichier = tk.Button(root, text="Choisir un fichier", command=choisir_fichier)
 btn_choisir_fichier.pack(pady=10)
+
+# Labels pour afficher le taux de compression et le nombre moyen de bits
+taux_label = tk.Label(root, text="Taux de compression : ")
+taux_label.pack(pady=5)
+bits_label = tk.Label(root, text="Nombre moyen de bits par caractère : ")
+bits_label.pack(pady=5)
+
 
 # Lancement de la boucle principale
 root.mainloop()

@@ -6,8 +6,9 @@ def determiner_alphabet_et_frequences(texte):
         else:
             alphabet[caractere] = 1
     
+    # Trier l'alphabet en fonction des fréquences croissantes et des valeurs ASCII des caractères
     alphabet_trie = sorted(alphabet.items(), key=lambda x: (x[1], ord(x[0])))
-    
+
     return alphabet_trie
 
 # Exemple d'utilisation :
