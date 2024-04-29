@@ -60,11 +60,12 @@ def ecrire_frequences(nom_fichier, alphabet_et_frequences):
             fichier.write(caractere + ' ' + str(freq) + '\n')
         print("Fichier {} créé avec succès.".format(nom_fichier))
 
+from bitarray import bitarray
 
-def ecrire_fichier_texte(nom_fichier, contenu):
+def ecrire_fichier_binaire(nom_fichier, contenu_binaire):
     try:
-        with open(nom_fichier, 'w') as fichier:
-            fichier.write(contenu)
+        with open(nom_fichier, 'wb') as fichier:
+            contenu_binaire.tofile(fichier)
             print("\nFichier {} créé avec succès.".format(nom_fichier))
     except IOError:
         print("Erreur lors de l'écriture dans le fichier.")
@@ -97,9 +98,13 @@ def compression_huffman(nom_fichier):
     # Codage du texte
     texte_code = coder_texte(texte, arbre_huffman)
 
-    # Écriture du texte compressé dans un fichier
+    # Convertir le texte compressé en une séquence de bits
+    texte_binaire = bitarray()
+    texte_binaire.extend(texte_code)
+
+    # Écriture du texte compressé dans un fichier binaire
     nom_fichier_compr = "./fichier_compresses/{}_compr.bin".format(nom_fichier.split('/')[-1].split('.')[0])
-    ecrire_fichier_texte(nom_fichier_compr, texte_code)
+    ecrire_fichier_binaire(nom_fichier_compr, texte_binaire)
 
     # Écriture des fréquences de caractère dans un fichier
     nom_fichier_freq = "./fichier_compresses/{}_freq.txt".format(nom_fichier.split('/')[-1].split('.')[0])
@@ -108,14 +113,15 @@ def compression_huffman(nom_fichier):
     print("\nCompression terminée.")
 
     # Calculer les tailles du texte initial et compressé
-    taille_texte_initial = len(texte)
-    taille_texte_compresse = len(texte_code) // 8
+    taille_texte_initial = os.path.getsize(nom_fichier)  # Taille du fichier initial
+    taille_texte_compresse = os.path.getsize(nom_fichier_compr)
     taux_compression = round((1 - (taille_texte_compresse / taille_texte_initial))*100 , 2)
     print("\nTaux de compression :", taux_compression, "%")
 
     # Calculer le nombre moyen de bits par caractère dans le texte compressé
+    texte_initial = len(texte)
     taille_compressé_bits = len(texte_code)
-    nombre_moyen_bits = determiner_nombre_moyen_bits(taille_compressé_bits, taille_texte_initial)
+    nombre_moyen_bits = determiner_nombre_moyen_bits(taille_compressé_bits, texte_initial)
     print("Nombre moyen de bits par caractère dans le texte compressé :", nombre_moyen_bits)
 
 # Utilisation de la fonction de compression

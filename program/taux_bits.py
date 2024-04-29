@@ -9,3 +9,4 @@ def determiner_nombre_moyen_bits(taille_compressé, nombre_caracteres):
     # Calculer le nombre moyen de bits par caractère
     nombre_moyen_bits = taille_compressé / nombre_caracteres
     return ceil(nombre_moyen_bits)
+
