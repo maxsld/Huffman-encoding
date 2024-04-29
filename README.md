@@ -10,6 +10,11 @@ Ce projet vise à mettre en œuvre l'algorithme semi-adaptatif de Huffman pour l
   pip install tk
   ```
 
+- La bibliothèque bitarray est utilisée pour manipuler efficacement les séquences de bits. Vous pouvez l'installer en exécutant la commande suivante dans votre terminal :
+```
+pip install bitarray
+```
+
 **Utilisation:**
 Ce projet comprend deux fichiers principaux :
 - Le fichier `main.py` permet d'exécuter le programme dans la console, offrant une interface en ligne de commande pour interagir avec le programme.
