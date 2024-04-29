@@ -8,6 +8,7 @@ from taux_bits import determiner_nombre_moyen_bits
 import os
 import threading
 import subprocess
+import bitarray
 
 # Fonction pour lire le contenu d'un fichier texte
 def lire_fichier_texte(nom_fichier):
@@ -23,11 +24,11 @@ def ecrire_frequences(nom_fichier, alphabet_et_frequences):
             fichier.write(caractere + ' ' + str(freq) + '\n')
         print("Fichier {} créé avec succès.".format(nom_fichier))
 
-# Fonction pour écrire le contenu dans un fichier
-def ecrire_fichier_texte(nom_fichier, contenu):
+# Fonction pour écrire le contenu dans un fichier binaire
+def ecrire_fichier_binaire(nom_fichier, contenu_binaire):
     try:
-        with open(nom_fichier, 'w') as fichier:
-            fichier.write(contenu)
+        with open(nom_fichier, 'wb') as fichier:
+            contenu_binaire.tofile(fichier)
             print("\nFichier {} créé avec succès.".format(nom_fichier))
     except IOError:
         print("Erreur lors de l'écriture dans le fichier.")
@@ -55,7 +56,9 @@ def compression_huffman(nom_fichier_entree, progress_bar, taux_label, bits_label
 
     # Écriture du texte compressé dans un fichier
     nom_fichier_sortie = os.path.join(dossier_sortie, "{}_compr.bin".format(os.path.basename(nom_fichier_entree).split('.')[0]))
-    ecrire_fichier_texte(nom_fichier_sortie, texte_code)
+    texte_binaire = bitarray.bitarray()
+    texte_binaire.extend(texte_code)
+    ecrire_fichier_binaire(nom_fichier_sortie, texte_binaire)
 
     # Écriture des fréquences de caractère dans un fichier
     nom_fichier_freq = os.path.join(dossier_sortie, "{}_freq.txt".format(os.path.basename(nom_fichier_entree).split('.')[0]))
@@ -65,9 +68,9 @@ def compression_huffman(nom_fichier_entree, progress_bar, taux_label, bits_label
     progress_bar["value"] = 100
 
     # Calculer les tailles du texte initial et compressé
-    taille_texte_initial = len(texte)
-    taille_texte_compresse = len(texte_code) // 8
-    taux_compression = 1 - (taille_texte_compresse / taille_texte_initial)
+    taille_texte_initial = os.path.getsize(nom_fichier_entree)  # Taille du fichier initial
+    taille_texte_compresse = os.path.getsize(nom_fichier_sortie)
+    taux_compression = (1 - (taille_texte_compresse / taille_texte_initial))
 
     # Calculer le nombre moyen de bits par caractère dans le texte compressé
     taille_compressé_bits = len(texte_code)
@@ -122,7 +125,6 @@ taux_label = tk.Label(root, text="Taux de compression : ")
 taux_label.pack(pady=5)
 bits_label = tk.Label(root, text="Nombre moyen de bits par caractère : ")
 bits_label.pack(pady=5)
-
 
 # Lancement de la boucle principale
 root.mainloop()
