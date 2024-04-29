@@ -4,6 +4,7 @@ from construction_arbre import construire_arbre_huffman
 from codage_texte import coder_texte
 from taux_bits import determiner_taux_compression, determiner_nombre_moyen_bits
 import os
+from bitarray import bitarray
 
 '''
 texte_exemple = "Ceci est un test d'encode avec Huffman"
@@ -60,7 +61,6 @@ def ecrire_frequences(nom_fichier, alphabet_et_frequences):
             fichier.write(caractere + ' ' + str(freq) + '\n')
         print("Fichier {} créé avec succès.".format(nom_fichier))
 
-from bitarray import bitarray
 
 def ecrire_fichier_binaire(nom_fichier, contenu_binaire):
     try:
